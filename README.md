@@ -8,7 +8,7 @@ This web application generates an essay outline and a full essay based on a give
 - Generate a full essay based on the outline
 - Save the generated essay as a DOCX file
 - Save the generated essay as a PDF file
-- Modern and futuristic web design
+- Friendly web design
 
 ## Technologies Used
 
