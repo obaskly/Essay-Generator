@@ -1,6 +1,6 @@
-# Essay Essay Generator
+# Free Essay Generator
 
-This web application generates an essay outline and a full essay based on a given subject. It also provides functionality to save the generated essay as a DOCX or PDF file.
+This web application generates an essay outline and a full essay based on a given subject, with GroqCloud API to generate content using llama3-8b-8192 model. It also allows saving the generated essay as a DOCX or PDF file.
 
 ## Features
 
@@ -37,6 +37,10 @@ This web application generates an essay outline and a full essay based on a give
     ```
     pip install -r requirements.txt
     ```
+
+### API set up
+
+- Get your free api from here https://console.groq.com/keys and place it in line 14 in app.py
 
 ### Running the Application
 
