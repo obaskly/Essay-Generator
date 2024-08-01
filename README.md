@@ -64,3 +64,7 @@ This web application generates an essay outline and a full essay based on a give
 - `templates/index.html`: HTML template for the web interface.
 - `static/styles.css`: CSS styles for the web interface.
 - `requirements.txt`: List of Python packages required for the project.
+
+## TODO
+
+- The script now generates references and places them at the end. But sometimes they are still between paragraphs. I'll improve that later.
