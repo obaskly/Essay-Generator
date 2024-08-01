@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .spinner {
+            display: none;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #4caf50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Essay Generator</h1>
+        <div class="input-box">
+            <input type="text" id="subject" placeholder="Enter your subject here...">
+            <button onclick="generateOutline()">Continue</button>
+        </div>
+        <div id="outline-section" style="display: none;">
+            <h2>Generated Outline</h2>
+            <textarea id="outline" rows="10"></textarea>
+            <button onclick="regenerateOutline()">Regenerate Outline</button>
+            <button onclick="generateEssay()">Generate Essay</button>
+            <div class="spinner" id="spinner"></div>
+            <h2>Generated Essay</h2>
+            <textarea id="essay" rows="20"></textarea>
+            <button onclick="saveAsDocx()">Save as DOCX</button>
+            <button onclick="saveAsPdf()">Save as PDF</button>
+        </div>
+    </div>
+
+    <script>
+        async function generateOutline() {
+            const subject = document.getElementById('subject').value;
+            const response = await fetch('/generate_outline', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ subject: subject })
+            });
+            const data = await response.json();
+            document.getElementById('outline').value = data.outline;
+            document.getElementById('outline-section').style.display = 'block';
+        }
+
+        async function regenerateOutline() {
+            generateOutline();
+        }
+
+        async function generateEssay() {
+            const outline = document.getElementById('outline').value;
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'block';
+            const response = await fetch('/generate_essay', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ outline: outline })
+            });
+            const data = await response.json();
+            document.getElementById('essay').value = data.essay;
+            spinner.style.display = 'none';
+        }
+
+        async function saveAsDocx() {
+            const essay = document.getElementById('essay').value;
+            const response = await fetch('/download_docx', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ essay: essay })
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'essay.docx';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+        }
+
+        async function saveAsPdf() {
+            const essay = document.getElementById('essay').value;
+            const response = await fetch('/download_pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ essay: essay })
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'essay.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>
