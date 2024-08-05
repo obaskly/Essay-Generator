@@ -30,7 +30,7 @@ This web application generates an essay outline and a full essay based on a give
 1. Clone the repository:
     ```
     git clone https://github.com/obaskly/Essay-Generator.git
-    cd essay-generator
+    cd Essay-Generator
     ```
 
 2. Install the required packages:
