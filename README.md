@@ -23,7 +23,7 @@ This web application generates an essay outline and a full essay based on a give
 ### Prerequisites
 
 - Python 3.x
-- pip (Python package installer)
+- pip
 
 ### Installation
 
